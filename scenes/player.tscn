@@ -25,8 +25,8 @@ script = ExtResource("3_8jq02")
 curve = SubResource("Curve2D_phc5v")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ArrowComponent/Path2D"]
-position = Vector2(164, 187)
-rotation = -0.526392
+position = Vector2(86, 262)
+rotation = 0.250709
 
 [node name="Arrow" type="CharacterBody2D" parent="ArrowComponent/Path2D/PathFollow2D"]
 
