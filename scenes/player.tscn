@@ -1,32 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://8xkaulbjjw0h"]
+[gd_scene load_steps=6 format=3 uid="uid://8xkaulbjjw0h"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_njhoj"]
 [ext_resource type="Texture2D" uid="uid://4e5by1yakw0i" path="res://scenes/player/crusty.png" id="2_au2ip"]
+[ext_resource type="Script" path="res://scenes/ArrowComponent.gd" id="3_8jq02"]
 [ext_resource type="Texture2D" uid="uid://qoft8sby5cfy" path="res://scenes/player/arrow.png" id="3_wcaq5"]
 
 [sub_resource type="Curve2D" id="Curve2D_phc5v"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 312, 101, 0, 0, 0, 0, 497, 191, 0, 0, 0, 0, 331, 275, 0, 0, 0, 0, 164, 187, 0, 0, 0, 0, 312, 101)
-}
-point_count = 5
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("1_njhoj")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
 scale = Vector2(2, 2)
 texture = ExtResource("2_au2ip")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 
 [node name="ArrowComponent" type="Node2D" parent="."]
+script = ExtResource("3_8jq02")
 
 [node name="Path2D" type="Path2D" parent="ArrowComponent"]
 curve = SubResource("Curve2D_phc5v")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="ArrowComponent/Path2D"]
-position = Vector2(312, 101)
-rotation = 0.452778
+position = Vector2(164, 187)
+rotation = -0.526392
 
 [node name="Arrow" type="CharacterBody2D" parent="ArrowComponent/Path2D/PathFollow2D"]
 
