@@ -10,7 +10,7 @@ var enemy_possible_spawn_locations = []
 
 func _ready():
 	# current enemy numbers
-	enemy_count_max = 20
+	enemy_count_max = 10
 
 	# calculate possible spawn locations
 	var size_x: int = $Tilemap/TileMap.size_x_tilemap
@@ -30,9 +30,10 @@ func _ready():
 		enemy_possible_spawn_locations.append(Vector2((size_x - 1), tracker_spawn_array))
 		tracker_spawn_array += 1
 
-func _process(delta):
+func _process(_delta):
 	while enemy_count <= enemy_count_max:
 		enemy_count += 1
 		var enemy_new: CharacterBody2D = enemy.instantiate()
 		add_child(enemy_new)
 		enemy_new.position = $Tilemap/TileMap.map_to_local(enemy_possible_spawn_locations.pick_random())
+	pass

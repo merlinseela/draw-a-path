@@ -27,5 +27,5 @@ func _ready():
 		loop_y_tracker += 1
 		loop_x_tracker = 0
 
-func _process(delta):
+func _process(_delta):
 	pass
