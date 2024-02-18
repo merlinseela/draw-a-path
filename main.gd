@@ -14,4 +14,10 @@ func _ready():
 func _process(delta):
 	while enemy_count <= enemy_count_max:
 		enemy_count += 1
-		add_child(enemy.instantiate())
+		var enemy_new: CharacterBody2D = enemy.instantiate()
+		add_child(enemy_new)
+		
+		
+		
+		enemy_new.position = Vector2(100,100)
+		
