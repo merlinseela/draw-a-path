@@ -17,7 +17,8 @@ func _process(delta):
 		var enemy_new: CharacterBody2D = enemy.instantiate()
 		add_child(enemy_new)
 		
-		
+		$Tilemap/TileMap.size_x_tilemap
+		$Tilemap/TileMap.size_y_tilemap
 		
 		enemy_new.position = Vector2(100,100)
 		
