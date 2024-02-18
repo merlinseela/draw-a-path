@@ -5,14 +5,12 @@ const SPEED = 300.0
 @onready var size_x: float
 @onready var size_y: float
 
-#@onready var path_follow_node: PathFollow2D
-	#path_follow_node = get_parent().get_node("ArrowComponent/Path2D/PathFollow2D")
-
 
 func _ready():
 	size_x = get_viewport().size[0]
 	size_y = get_viewport().size[1]
 	position = Vector2((size_x/2), (size_y/2))
+
 
 func _physics_process(delta):
 	move_and_slide()
@@ -23,5 +21,3 @@ func _physics_process(delta):
 		velocity = angle * SPEED
 	else:
 		velocity *= 0
-
-

@@ -11,6 +11,9 @@ extends TileMap
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Viewport is somewhat not accurate
+	# drawing/rendering of tilemap creates around 2.5 rows more then needed
+	# drawing/rendering of tilemap creates around 2.0 rows
 	size_x = get_viewport().size[0]
 	size_y = get_viewport().size[1]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq56liporjxge"
-path="res://.godot/imported/stains.png-a25ac2ea54dbda5ca9f1baed01b5b4bd.ctex"
+uid="uid://e1qp37lkpeeu"
+path="res://.godot/imported/stains_3.png-8e32314dc76b9f4657bd3059646c48cd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/enemy/stains.png"
-dest_files=["res://.godot/imported/stains.png-a25ac2ea54dbda5ca9f1baed01b5b4bd.ctex"]
+source_file="res://scenes/enemy/stains_3.png"
+dest_files=["res://.godot/imported/stains_3.png-8e32314dc76b9f4657bd3059646c48cd.ctex"]
 
 [params]
 
