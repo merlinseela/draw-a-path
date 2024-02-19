@@ -1,17 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwdaco286kd5g"]
+[gd_scene load_steps=6 format=3 uid="uid://cwdaco286kd5g"]
 
 [ext_resource type="Script" path="res://scenes/enemy/enemy.gd" id="1_cmqwb"]
+[ext_resource type="Texture2D" uid="uid://e1qp37lkpeeu" path="res://scenes/enemy/stains_3.png" id="2_i4py6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvfg"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ip01o"]
+size = Vector2(12, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1q62"]
+size = Vector2(10, 12)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 32
 script = ExtResource("1_cmqwb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_i4py6")
 
-[node name="CollisionEnemy1" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-2, -8, 5, -8, 5, -7, 6, -7, 6, -6, 7, -6, 7, 0, 8, 0, 8, 3, 7, 3, 7, 4, 6, 4, 6, 5, 5, 5, 5, 6, 4, 6, 4, 7, 1, 7, 1, 8, -2, 8, -2, 7, -4, 7, -4, 6, -6, 6, -6, 5, -7, 5, -7, 4, -8, 4, -8, 1, -7, 1, -7, -5, -6, -5, -6, -6, -3, -6, -3, -7, -2, -7)
+[node name="AreaCollisionEnemy" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 24
 
-[node name="CollisionEnemy2" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-4, -8, 2, -8, 2, -7, 6, -7, 6, -6, 7, -6, 7, -2, 6, -2, 6, -1, 7, -1, 7, 0, 6, 0, 6, 2, 5, 2, 5, 4, 6, 4, 6, 7, 5, 7, 5, 8, 1, 8, 1, 7, -2, 7, -2, 6, -3, 6, -3, 7, -4, 7, -4, 6, -5, 6, -5, 5, -6, 5, -6, 4, -7, 4, -7, 2, -6, 2, -6, 1, -7, 1, -7, 0, -6, 0, -6, -1, -5, -1, -5, -3, -6, -3, -6, -6, -5, -6, -5, -7, -4, -7)
+[node name="CollisionEnemy1" type="CollisionShape2D" parent="AreaCollisionEnemy"]
+shape = SubResource("RectangleShape2D_1uvfg")
 
-[node name="CollisionEnemy3" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-7, -7, -7, -4, -6, -4, -6, -3, -5, -3, -5, 1, -6, 1, -6, 2, -7, 2, -7, 3, -6, 3, -6, 4, -7, 4, -7, 7, -6, 7, -6, 8, -5, 8, -5, 7, -4, 7, -4, 5, -3, 5, -3, 4, 1, 4, 1, 5, 3, 5, 3, 5, 3, 6, 4, 6, 4, 7, 7, 7, 7, 3, 6, 3, 6, 2, 4, 2, 4, 1, 3, 1, 3, 0, 4, 0, 4, -1, 5, -1, 5, -4, 6, -4, 6, -6, 7, -6, 7, -7, 3, -7, 3, -6, 2, -6, 2, -5, -3, -5, -3, -6, -4, -6, -4, -7)
+[node name="CollisionEnemy2" type="CollisionShape2D" parent="AreaCollisionEnemy"]
+shape = SubResource("RectangleShape2D_ip01o")
+
+[node name="CollisionEnemy3" type="CollisionShape2D" parent="AreaCollisionEnemy"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_s1q62")
+
+[node name="CollisionEnemy1" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1uvfg")
+
+[node name="CollisionEnemy2" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ip01o")
+
+[node name="CollisionEnemy3" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_s1q62")

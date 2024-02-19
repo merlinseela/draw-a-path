@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8xkaulbjjw0h"]
+[gd_scene load_steps=10 format=3 uid="uid://8xkaulbjjw0h"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_njhoj"]
 [ext_resource type="Texture2D" uid="uid://4e5by1yakw0i" path="res://scenes/player/crusty.png" id="2_au2ip"]
@@ -6,28 +6,44 @@
 [ext_resource type="Texture2D" uid="uid://qoft8sby5cfy" path="res://scenes/player/arrow.png" id="3_wcaq5"]
 [ext_resource type="Script" path="res://scenes/player/Arrow.gd" id="4_dm4yq"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_est3j"]
-radius = 43.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lkbo"]
+size = Vector2(32, 56)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvjm4"]
+radius = 13.0
+height = 50.0
 
 [sub_resource type="Curve2D" id="Curve2D_phc5v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odkt0"]
+size = Vector2(22, 4)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
+collision_layer = 2
 script = ExtResource("1_njhoj")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 scale = Vector2(2, 2)
 texture = ExtResource("2_au2ip")
 
+[node name="Player" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_6lkbo")
+
 [node name="CrustyArrowArea" type="Area2D" parent="Player"]
+collision_layer = 4
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CrustyArrowArea"]
-position = Vector2(0, 4)
-shape = SubResource("CircleShape2D_est3j")
+position = Vector2(-1, 2)
+shape = SubResource("CapsuleShape2D_dvjm4")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
-polygon = PackedVector2Array(-16, -24, 0, -24, 0, 2, 6, 2, 6, 4, 12, 4, 12, 6, 14, 6, 14, 8, 16, 8, 16, 14, 14, 14, 14, 16, 10, 18, 0, 18, 0, 30, 4, 30, 4, 32, -2, 32, -2, 18, -10, 18, -10, 30, -6, 30, -6, 32, -12, 32, -12, 18, -16, 18)
+[node name="CrustyEnemyArea" type="Area2D" parent="Player"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player/CrustyEnemyArea"]
+polygon = PackedVector2Array(-14, -22, -14, 27, 12, 27, 12, 4, -2, 4, -2, -22)
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_phc5v")
@@ -36,16 +52,19 @@ script = ExtResource("3_rw428")
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 
 [node name="Arrow" type="CharacterBody2D" parent="Path2D/PathFollow2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("4_dm4yq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Arrow"]
-
 [node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D/Arrow"]
+rotation = 0.785398
 texture = ExtResource("3_wcaq5")
 
 [node name="Hitbox" type="Area2D" parent="Path2D/PathFollow2D/Arrow"]
+collision_layer = 16
+collision_mask = 36
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Path2D/PathFollow2D/Arrow/Hitbox"]
-polygon = PackedVector2Array(-8, 8, -6, 8, -6, 7, -5, 7, -5, 6, -3, 6, -3, 5, -2, 5, -2, 4, -1, 4, -1, 3, 0, 3, 0, 1, 1, 1, 1, 0, 2, 0, 2, -1, 3, -1, 3, -2, 4, -2, 4, -3, 5, -3, 5, -4, 6, -4, 6, -3, 7, -3, 7, -4, 8, -4, 8, -8, 4, -8, 4, -7, 3, -7, 3, -6, 4, -6, 4, -5, 3, -5, 3, -4, 2, -4, 2, -3, 1, -3, 1, -2, 0, -2, 0, -1, -1, -1, -1, 0, -3, 0, -3, 1, -4, 1, -4, 2, -5, 2, -5, 3, -6, 3, -6, 5, -7, 5, -7, 6, -8, 6)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Arrow/Hitbox"]
+shape = SubResource("RectangleShape2D_odkt0")
 
 [connection signal="area_entered" from="Path2D/PathFollow2D/Arrow/Hitbox" to="Path2D" method="_on_hitbox_area_entered"]

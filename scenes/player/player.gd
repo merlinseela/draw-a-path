@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 
+@export var health: int = 5
+
 @onready var size_x: float
 @onready var size_y: float
 

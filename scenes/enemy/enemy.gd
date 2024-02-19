@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var health = 1
 
 const SPEED = 300.0
 
@@ -13,6 +14,12 @@ const SPEED = 300.0
 	$CollisionEnemy1.disabled,
 	$CollisionEnemy2.disabled,
 	$CollisionEnemy3.disabled
+]
+
+@onready var enemy_area_collision = [
+	$AreaCollisionEnemy/CollisionEnemy1.disabled,
+	$AreaCollisionEnemy/CollisionEnemy2.disabled,
+	$AreaCollisionEnemy/CollisionEnemy3.disabled
 ]
 
 @onready var size_x: float
@@ -29,6 +36,7 @@ func _ready():
 	while tracker_loop < 3:
 		if tracker_loop != random:
 			enemy_collisions[tracker_loop] = true
+			enemy_area_collision[tracker_loop] = true
 		tracker_loop += 1
 
 func _physics_process(delta):
