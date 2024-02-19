@@ -19,8 +19,8 @@ func _ready():
 	# UpperBorder + Bottom Border
 	var tracker_spawn_array: int = 1
 	while tracker_spawn_array < size_x:
-		enemy_possible_spawn_locations.append(Vector2(tracker_spawn_array, 1)) # CORRECT
-		enemy_possible_spawn_locations.append(Vector2(tracker_spawn_array, size_y - 1)) #CORRET
+		enemy_possible_spawn_locations.append(Vector2(tracker_spawn_array, 1))
+		enemy_possible_spawn_locations.append(Vector2(tracker_spawn_array, size_y - 1))
 		tracker_spawn_array += 1
 	
 	# LeftBorder + RightBorder

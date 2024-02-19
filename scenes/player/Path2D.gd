@@ -9,6 +9,8 @@ const SPEED = 300
 @onready var idle_orbit_distance: int
 @onready var idle_orbit_desired_position: Vector2
 
+@onready var arrow_path_points: PackedVector2Array = []
+
 var tracker_state
 enum states {
 	IDLE,
@@ -22,7 +24,7 @@ var tracker_points: int
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	tracker_state = states.IDLE
-
+	arrow_path_points.append(player_node.position)
 
 	idle_orbit_distance = 100
 	#arrow_node.position = player_node.position + Vector2(idle_orbit_distance,0)
@@ -30,29 +32,36 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Input.is_action_just_pressed("move_up"):
+		print(arrow_path_points)
+	
 	match tracker_state:
 		states.IDLE:
 		# Arrow orbiting
-			#tracker_orbit_degrees += 2
-			#arrow_node.position = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
-		#TODO: Orbeting not perfect ...
-		#TODO: ERROR IN PATH2D cause problems.... we need to get rid of it ... but do not know how yet.--.-.--
+			tracker_orbit_degrees += 2
+			arrow_node.position = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
+			
 		# Arrow Pathing control
-			if curve.get_point_position(0) != player_node.position:
-				curve.remove_point(0)
-				curve.add_point(player_node.position, Vector2(0,0), Vector2(0,0), 0)
+			if arrow_path_points[0] != player_node.position:
+				arrow_path_points[0] = player_node.position
 				
 			if Input.is_action_just_pressed("mouse_click_left"):
 				_add_point_path(get_viewport().get_mouse_position())
-			
+				
 			if Input.is_action_just_pressed("mouse_click_right"):
-				#arrow_node.position = Vector2(0,0)
-				#arrow_node.position = player_node.position
-				tracker_state = states.PATHING
+				arrow_node.position = Vector2(0,0)
+				var tracker_path_add_loop: int = 0
+				while tracker_path_add_loop < arrow_path_points.size():
+					curve.add_point(arrow_path_points[tracker_path_add_loop])
+					tracker_path_add_loop += 1
+				arrow_path_points = []
+				arrow_path_points.append(player_node.position)
+				
 				tracker_points = curve.point_count
-				if tracker_points == 1:
+				tracker_state = states.PATHING
+				if tracker_points <= 1:
+					curve.clear_points()
 					tracker_state = states.IDLE
-				#TODO: SOMEONE we can kill it here -> now no detection is working anymore
 				
 		states.PATHING:
 			if curve.get_point_position(tracker_points) != player_node.position:
@@ -80,21 +89,22 @@ func _process(delta):
 			$PathFollow2D.progress += SPEED * delta
 			
 func _add_point_path(cords_for_point: Vector2):
-	curve.add_point(cords_for_point)
-
-
+	#curve.add_point(cords_for_point)
+	arrow_path_points.append(cords_for_point)
+	
 func _on_hitbox_area_entered(area):
-	print(area)
 	var area_parent = area.get_parent()
 	if area.name == "CrustyArrowArea":
-		if tracker_state != states.IDLE:
+		if tracker_state != states.IDLE and curve.get_point_position(0) != player_node.position:
 			curve.clear_points()
 			$PathFollow2D.progress = 0
 			$PathFollow2D.progress_ratio = 0
 			tracker_state = states.IDLE
+			player_node.position -= Vector2(0.001, 0.001)
+		player_node.position += Vector2(0.001, 0.001)
 	
-	if area_parent.health != 0:
+	if area.name == "AreaCollisionEnemy":
 		area_parent.health -= 1
 		if area_parent.health == 0:
-			area.free()
+			area_parent.free()
 		main_node.enemy_count -= 1

@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var health = 1
 
-const SPEED = 300.0
+const SPEED = 1250.0
 
 @onready var enemy_sprites = [
 	preload("res://scenes/enemy/stains_1.png"),
@@ -38,7 +38,7 @@ func _ready():
 			enemy_collisions[tracker_loop] = true
 			enemy_area_collision[tracker_loop] = true
 		tracker_loop += 1
-
+	
 func _physics_process(delta):
 	move_and_slide()
 	velocity = SPEED * position.direction_to(get_parent().get_node("Player/Player").position) * delta

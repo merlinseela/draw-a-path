@@ -27,5 +27,24 @@ func _ready():
 		loop_y_tracker += 1
 		loop_x_tracker = 0
 
+	# LeftBorder + RightBorder
+	var tracker: int = 0
+	while tracker <= size_y_tilemap:
+		set_cell(0, Vector2i(0, tracker), 1, Vector2i(2,0), 0)
+		set_cell(0, Vector2i(size_x_tilemap, tracker), 1, Vector2i(2,0), 0)
+		tracker += 1
+
+	# Bottom Border
+	tracker = 0
+	while tracker <= size_x_tilemap:
+		set_cell(0, Vector2i(tracker, size_y_tilemap), 1, Vector2i(2,0), 0)
+		tracker += 1
+
+	# UpperBorder
+	tracker = 1
+	while tracker < size_x_tilemap:
+		set_cell(0, Vector2i(tracker, 0), 1, Vector2i(0,0), 0)
+		tracker += 1
+
 func _process(_delta):
 	pass

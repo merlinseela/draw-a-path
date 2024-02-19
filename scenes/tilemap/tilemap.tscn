@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://chuxnsrcin21i"]
+[gd_scene load_steps=7 format=3 uid="uid://chuxnsrcin21i"]
 
 [ext_resource type="Texture2D" uid="uid://bua3fr31he56l" path="res://scenes/tilemap/gras_patches.png" id="1_jm3lm"]
 [ext_resource type="Script" path="res://scenes/tilemap/TileMap.gd" id="2_emo2d"]
+[ext_resource type="Texture2D" uid="uid://brpesfipgbx6h" path="res://scenes/tilemap/wall_patches.png" id="2_w5yfu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iouio"]
 texture = ExtResource("1_jm3lm")
@@ -9,8 +10,15 @@ texture = ExtResource("1_jm3lm")
 1:0/0 = 0
 2:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lokee"]
+texture = ExtResource("2_w5yfu")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_umy7x"]
 sources/0 = SubResource("TileSetAtlasSource_iouio")
+sources/1 = SubResource("TileSetAtlasSource_lokee")
 
 [node name="Tilemap" type="Node2D"]
 
