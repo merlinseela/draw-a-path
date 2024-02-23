@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 
+signal health_depleted
+
 @export var health: int = 5
 
 @onready var main_node: Node2D = get_parent().get_parent()
@@ -32,4 +34,4 @@ func _on_crusty_enemy_area_area_entered(area):
 		main_node.enemy_count -= 1
 		area_parent.free()
 	if health == 0:
-		free() #TODO: Introduce Proper Gameover Screen _> this also needs a game start Screen
+		health_depleted.emit()
