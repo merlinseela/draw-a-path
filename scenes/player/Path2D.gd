@@ -15,6 +15,7 @@ const SPEED = 300
 @onready var idle_orbit_distance: int
 @onready var idle_orbit_desired_position: Vector2
 @onready var arrow_path_points: PackedVector2Array = []
+@onready var arrow_path_points_crosses = []
 
 var tracker_state
 enum states {
@@ -67,10 +68,20 @@ func _process(delta):
 				arrow_path_points[0] = player_node.position
 				
 			if Input.is_action_just_pressed("mouse_click_left"):
-				_add_point_path(get_viewport().get_mouse_position())
-				awd
+				var new_point_position: Vector2 = get_viewport().get_mouse_position()
+				_add_point_path(new_point_position)
+				var new_point_node: Node2D = point_scene.instantiate()
+				add_child(new_point_node)
+				new_point_node.position = new_point_position
+				arrow_path_points_crosses.append(new_point_node)
 				
 			if Input.is_action_just_pressed("mouse_click_right"):
+				var new_point_position: Vector2 = player_node.position
+				var new_point_node: Node2D = point_scene.instantiate()
+				add_child(new_point_node)
+				new_point_node.position = new_point_position
+				arrow_path_points_crosses.append(new_point_node)
+				
 				# visibility change of orbitting arrow
 				arrow_node_orbit.visible = false
 				arrow_node_orbit_hitbox.set_collision_layer_value(5, false)
@@ -116,6 +127,11 @@ func _process(delta):
 				
 		states.BACK:
 			path_draw.points = []
+			
+			for cross in arrow_path_points_crosses:
+				cross.free()
+			arrow_path_points_crosses = []
+			
 			if curve.get_point_position(0) == Vector2(0,0):
 				curve.add_point(arrow_node.global_position)
 				
@@ -143,6 +159,9 @@ func _on_hitbox_area_entered(area):
 			player_node.position -= Vector2(0.001, 0.001)
 			arrow_path_points = []
 			arrow_path_points.append(player_node.position)
+			for cross in arrow_path_points_crosses:
+				cross.free()
+			arrow_path_points_crosses = []
 		player_node.position += Vector2(0.001, 0.001)
 	
 	if area.name == "AreaCollisionEnemy":
@@ -150,3 +169,4 @@ func _on_hitbox_area_entered(area):
 		if area_parent.health == 0:
 			area_parent.free()
 		main_node.enemy_count -= 1
+		main_node.enemy_killed += 1
