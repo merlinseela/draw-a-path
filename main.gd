@@ -12,11 +12,8 @@ var enemy_possible_spawn_locations = []
 var enemy_killed_until_next_level: int = 1
 
 func _ready():
-	# connect signal
-	
-	
 	# current enemy numbers
-	enemy_count_max = 40
+	enemy_count_max = 1
 	
 	# calculate possible spawn locations
 	var size_x: int = $Tilemap/TileMap.size_x_tilemap
