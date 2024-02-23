@@ -4,11 +4,13 @@ const SPEED = 300
 
 @onready var player_node: CharacterBody2D = get_parent().get_node("Player")
 @onready var arrow_node: CharacterBody2D = get_node("PathFollow2D/Arrow")
+@onready var arrow_node_hitbox: Area2D = get_node("PathFollow2D/Arrow/Hitbox")
+@onready var arrow_node_orbit: CharacterBody2D = get_parent().get_node("Arrow")
+@onready var arrow_node_orbit_hitbox: Area2D = arrow_node_orbit.get_node("Hitbox")
 @onready var main_node: Node2D = get_parent().get_parent()
 
 @onready var idle_orbit_distance: int
 @onready var idle_orbit_desired_position: Vector2
-
 @onready var arrow_path_points: PackedVector2Array = []
 
 var tracker_state
@@ -27,20 +29,32 @@ func _ready():
 	arrow_path_points.append(player_node.position)
 
 	idle_orbit_distance = 100
-	#arrow_node.position = player_node.position + Vector2(idle_orbit_distance,0)
+	arrow_node_orbit.position = player_node.position + Vector2(idle_orbit_distance,0)
 	tracker_orbit_degrees = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("move_up"):
-		print(arrow_path_points)
-	
+		pass
+		
 	match tracker_state:
 		states.IDLE:
+		# visibility change of orbitting arrow
+			arrow_node_orbit.visible = true
+			arrow_node_orbit_hitbox.set_collision_layer_value(5, true)
+			arrow_node_orbit_hitbox.set_collision_mask_value(3, true)
+			arrow_node_orbit_hitbox.set_collision_mask_value(6, true)
+			
+		# visibility change of drawn arrow
+			arrow_node.visible = false
+			arrow_node_hitbox.set_collision_layer_value(5, false)
+			arrow_node_hitbox.set_collision_mask_value(3, false)
+			arrow_node_hitbox.set_collision_mask_value(6, false)
+		
 		# Arrow orbiting
-			#tracker_orbit_degrees += 2
-			#var calculated_rot_arrow = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
-			#arrow_node.position += calculated_rot_arrow
+			tracker_orbit_degrees += 2
+			arrow_node_orbit.position = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
+			arrow_node_orbit.rotation = deg_to_rad(tracker_orbit_degrees + 270)
 			
 		# Arrow Pathing control
 			if arrow_path_points[0] != player_node.position:
@@ -50,7 +64,19 @@ func _process(delta):
 				_add_point_path(get_viewport().get_mouse_position())
 				
 			if Input.is_action_just_pressed("mouse_click_right"):
-				#arrow_node.position -= calculated_rot_arrow
+				# visibility change of orbitting arrow
+				arrow_node_orbit.visible = false
+				arrow_node_orbit_hitbox.set_collision_layer_value(5, false)
+				arrow_node_orbit_hitbox.set_collision_mask_value(3, false)
+				arrow_node_orbit_hitbox.set_collision_mask_value(6, false)
+
+				# visibility change of drawn arrow
+				arrow_node.visible = true
+				arrow_node_hitbox.set_collision_layer_value(5, true)
+				arrow_node_hitbox.set_collision_mask_value(3, true)
+				arrow_node_hitbox.set_collision_mask_value(6, true)
+				
+				# prep pathing state
 				var tracker_path_add_loop: int = 0
 				while tracker_path_add_loop < arrow_path_points.size():
 					curve.add_point(arrow_path_points[tracker_path_add_loop])
