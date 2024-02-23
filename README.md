@@ -2,11 +2,11 @@
 
 ![](./documentation/ingame.png)
 
-
 Is a simple game made with [Godot](https://godotengine.org/) 4.2.1. Goal of this game is to defend yourself from the enemies buy using your Yaka Arrow. With each dying enemy you will gain points which will increase the number of maximum enemies at once. The player has to stay alive as long as possible.
 
 The game is developed and published for Windows PCs.
-Theoretical you should be able to run the game on any other operating system by downloading the repository and importing it as a project into Godot.
+
+Theoretically you should be able to run the game on any other operating system by downloading the repository and importing it as a project into Godot.
 
 ## Controls
 
@@ -23,4 +23,4 @@ Theoretical you should be able to run the game on any other operating system by 
 
 
 ## License
-The game and all its Assets are released under MIT License. You can find the full License [here](LICENSE.md).
+The game and all it's Assets are released under MIT License. You can find the full License [here](LICENSE.md).
