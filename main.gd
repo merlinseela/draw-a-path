@@ -10,7 +10,7 @@ var enemy_possible_spawn_locations = []
 
 func _ready():
 	# current enemy numbers
-	enemy_count_max = 10
+	enemy_count_max = 0
 
 	# calculate possible spawn locations
 	var size_x: int = $Tilemap/TileMap.size_x_tilemap

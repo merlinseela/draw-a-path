@@ -39,7 +39,8 @@ func _process(delta):
 		states.IDLE:
 		# Arrow orbiting
 			tracker_orbit_degrees += 2
-			arrow_node.position = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
+			var calculated_rot_arrow = player_node.position + Vector2(idle_orbit_distance, 0).rotated(deg_to_rad(tracker_orbit_degrees))
+			arrow_node.position += calculated_rot_arrow
 			
 		# Arrow Pathing control
 			if arrow_path_points[0] != player_node.position:
@@ -49,7 +50,7 @@ func _process(delta):
 				_add_point_path(get_viewport().get_mouse_position())
 				
 			if Input.is_action_just_pressed("mouse_click_right"):
-				arrow_node.position = Vector2(0,0)
+				arrow_node.position -= calculated_rot_arrow
 				var tracker_path_add_loop: int = 0
 				while tracker_path_add_loop < arrow_path_points.size():
 					curve.add_point(arrow_path_points[tracker_path_add_loop])

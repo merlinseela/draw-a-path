@@ -29,7 +29,7 @@ func _on_crusty_enemy_area_area_entered(area):
 	var area_parent = area.get_parent()
 	if area.name == "AreaCollisionEnemy":
 		health -= 1
-		main_node.enemy_count -= 0
+		main_node.enemy_count -= 1
 		area_parent.free()
 	if health == 0:
 		free() #TODO: Introduce Proper Gameover Screen _> this also needs a game start Screen
