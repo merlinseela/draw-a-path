@@ -2,6 +2,8 @@ extends Path2D
 
 const SPEED = 300
 
+@onready var point_scene: PackedScene = preload("res://scenes/player/path_point.tscn")
+
 @onready var player_node: CharacterBody2D = get_parent().get_node("Player")
 @onready var arrow_node: CharacterBody2D = get_node("PathFollow2D/Arrow")
 @onready var arrow_node_hitbox: Area2D = get_node("PathFollow2D/Arrow/Hitbox")
@@ -16,7 +18,7 @@ const SPEED = 300
 
 var tracker_state
 enum states {
-	IDLE,
+	IDLE, 
 	PATHING,
 	BACK
 }
@@ -66,6 +68,7 @@ func _process(delta):
 				
 			if Input.is_action_just_pressed("mouse_click_left"):
 				_add_point_path(get_viewport().get_mouse_position())
+				awd
 				
 			if Input.is_action_just_pressed("mouse_click_right"):
 				# visibility change of orbitting arrow
@@ -73,19 +76,19 @@ func _process(delta):
 				arrow_node_orbit_hitbox.set_collision_layer_value(5, false)
 				arrow_node_orbit_hitbox.set_collision_mask_value(3, false)
 				arrow_node_orbit_hitbox.set_collision_mask_value(6, false)
-
+ 
 				# visibility change of drawn arrow
 				arrow_node.visible = true
 				arrow_node_hitbox.set_collision_layer_value(5, true)
 				arrow_node_hitbox.set_collision_mask_value(3, true)
 				arrow_node_hitbox.set_collision_mask_value(6, true)
-				
+
 				# prep pathing state
 				var tracker_path_add_loop: int = 0
 				while tracker_path_add_loop < arrow_path_points.size():
 					curve.add_point(arrow_path_points[tracker_path_add_loop])
 					tracker_path_add_loop += 1
-				
+
 				tracker_points = curve.point_count
 				tracker_state = states.PATHING
 				if tracker_points <= 1:
@@ -93,7 +96,6 @@ func _process(delta):
 					tracker_state = states.IDLE
 				
 		states.PATHING:
-			
 			if curve.get_point_position(tracker_points) != player_node.position:
 				curve.remove_point(tracker_points)
 				curve.add_point(player_node.position, Vector2(0,0), Vector2(0,0), tracker_points)
