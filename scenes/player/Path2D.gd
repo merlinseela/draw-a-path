@@ -9,6 +9,8 @@ const SPEED = 300
 @onready var arrow_node_orbit_hitbox: Area2D = arrow_node_orbit.get_node("Hitbox")
 @onready var main_node: Node2D = get_parent().get_parent()
 
+
+
 @onready var idle_orbit_distance: int
 @onready var idle_orbit_desired_position: Vector2
 @onready var arrow_path_points: PackedVector2Array = []
@@ -38,6 +40,8 @@ func _process(delta):
 		pass
 		
 	match tracker_state:
+		points = array_origin_node.arrow_path_points
+		
 		states.IDLE:
 		# visibility change of orbitting arrow
 			arrow_node_orbit.visible = true
@@ -118,7 +122,7 @@ func _process(delta):
 func _add_point_path(cords_for_point: Vector2):
 	#curve.add_point(cords_for_point)
 	arrow_path_points.append(cords_for_point)
-	
+
 func _on_hitbox_area_entered(area):
 	var area_parent = area.get_parent()
 	if area.name == "CrustyArrowArea":
