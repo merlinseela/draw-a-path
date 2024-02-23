@@ -38,7 +38,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("move_up"):
 		pass
 		
-	match tracker_state:		
+	match tracker_state:
 		states.IDLE:
 		# drawing of line
 			path_draw.points = arrow_path_points
