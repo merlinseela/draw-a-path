@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://de0b5inuxfogw"]
+[gd_scene load_steps=5 format=3 uid="uid://de0b5inuxfogw"]
 
 [ext_resource type="PackedScene" uid="uid://chuxnsrcin21i" path="res://scenes/tilemap/tilemap.tscn" id="1_8diue"]
 [ext_resource type="Script" path="res://main.gd" id="1_8dle6"]
 [ext_resource type="PackedScene" uid="uid://8xkaulbjjw0h" path="res://scenes/player/player.tscn" id="2_tamwn"]
+[ext_resource type="PackedScene" uid="uid://c3gj3n1r03vfq" path="res://scenes/userinterface/ui.tscn" id="4_dxmy1"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8dle6")
 
 [node name="Tilemap" parent="." instance=ExtResource("1_8diue")]
+
+[node name="Ui" parent="." instance=ExtResource("4_dxmy1")]
 
 [node name="Player" parent="." instance=ExtResource("2_tamwn")]

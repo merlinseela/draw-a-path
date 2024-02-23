@@ -1,17 +1,20 @@
 extends Node2D
 
 @onready var enemy: PackedScene = preload("res://scenes/enemy/enemy.tscn")
-var test
 
+@onready var player_node: CharacterBody2D = get_node("Player/Player")
+
+# Gameloop variables
+var enemy_count_max: int #level = max amount of enemies
+var enemy_killed: int = 0
 var enemy_count: int = 1
-var enemy_count_max: int
-
 var enemy_possible_spawn_locations = []
+var enemy_until_next_level: int
 
 func _ready():
 	# current enemy numbers
-	enemy_count_max = 10
-
+	enemy_count_max = 1
+	
 	# calculate possible spawn locations
 	var size_x: int = $Tilemap/TileMap.size_x_tilemap
 	var size_y: int = $Tilemap/TileMap.size_y_tilemap
@@ -31,6 +34,14 @@ func _ready():
 		tracker_spawn_array += 1
 
 func _process(_delta):
+	# update ui
+	$Ui/TextureRect/Level.text = ("Level: " + str(enemy_count_max))
+	$Ui/TextureRect/EnemiesKilled.text = ("Kills: " + str(enemy_killed))
+	$Ui/TextureRect/HP.text = ("Hitpoints: " + str(player_node.health))
+	
+	# check if new level is reached
+	
+	# spawn enemies if maximum is not reached
 	while enemy_count <= enemy_count_max:
 		enemy_count += 1
 		var enemy_new: CharacterBody2D = enemy.instantiate()
