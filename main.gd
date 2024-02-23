@@ -9,7 +9,7 @@ var enemy_count_max: int #level = max amount of enemies
 var enemy_killed: int = 0
 var enemy_count: int = 1
 var enemy_possible_spawn_locations = []
-var enemy_until_next_level: int
+var enemy_killed_until_next_level: int = 1
 
 func _ready():
 	# current enemy numbers
@@ -40,6 +40,10 @@ func _process(_delta):
 	$Ui/TextureRect/HP.text = ("Hitpoints: " + str(player_node.health))
 	
 	# check if new level is reached
+	if enemy_killed_until_next_level <= enemy_killed:
+		enemy_count_max += 1
+		enemy_killed_until_next_level += enemy_count_max
+		player_node.health = 5
 	
 	# spawn enemies if maximum is not reached
 	while enemy_count <= enemy_count_max:
