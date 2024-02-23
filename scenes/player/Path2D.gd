@@ -93,10 +93,17 @@ func _process(delta):
 					tracker_state = states.IDLE
 				
 		states.PATHING:
+			
 			if curve.get_point_position(tracker_points) != player_node.position:
 				curve.remove_point(tracker_points)
 				curve.add_point(player_node.position, Vector2(0,0), Vector2(0,0), tracker_points)
-				path_draw.points[tracker_points -1] = player_node.position
+				
+				if arrow_path_points.size() == tracker_points:
+					arrow_path_points.append(player_node.position)
+					path_draw.points = arrow_path_points
+				else:
+					arrow_path_points[tracker_points] = player_node.position
+					path_draw.points = arrow_path_points
 				
 			$PathFollow2D.progress += SPEED * delta
 			
@@ -106,6 +113,7 @@ func _process(delta):
 				tracker_state = states.BACK
 				
 		states.BACK:
+			path_draw.points = []
 			if curve.get_point_position(0) == Vector2(0,0):
 				curve.add_point(arrow_node.global_position)
 				
