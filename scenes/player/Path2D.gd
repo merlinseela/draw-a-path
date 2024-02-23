@@ -8,8 +8,7 @@ const SPEED = 300
 @onready var arrow_node_orbit: CharacterBody2D = get_parent().get_node("Arrow")
 @onready var arrow_node_orbit_hitbox: Area2D = arrow_node_orbit.get_node("Hitbox")
 @onready var main_node: Node2D = get_parent().get_parent()
-
-
+@onready var path_draw: Line2D = get_parent().get_node("Line2D")
 
 @onready var idle_orbit_distance: int
 @onready var idle_orbit_desired_position: Vector2
@@ -39,10 +38,11 @@ func _process(delta):
 	if Input.is_action_just_pressed("move_up"):
 		pass
 		
-	match tracker_state:
-		points = array_origin_node.arrow_path_points
-		
+	match tracker_state:		
 		states.IDLE:
+		# drawing of line
+			path_draw.points = arrow_path_points
+			
 		# visibility change of orbitting arrow
 			arrow_node_orbit.visible = true
 			arrow_node_orbit_hitbox.set_collision_layer_value(5, true)
@@ -85,8 +85,6 @@ func _process(delta):
 				while tracker_path_add_loop < arrow_path_points.size():
 					curve.add_point(arrow_path_points[tracker_path_add_loop])
 					tracker_path_add_loop += 1
-				arrow_path_points = []
-				arrow_path_points.append(player_node.position)
 				
 				tracker_points = curve.point_count
 				tracker_state = states.PATHING
@@ -98,6 +96,7 @@ func _process(delta):
 			if curve.get_point_position(tracker_points) != player_node.position:
 				curve.remove_point(tracker_points)
 				curve.add_point(player_node.position, Vector2(0,0), Vector2(0,0), tracker_points)
+				path_draw.points[tracker_points -1] = player_node.position
 				
 			$PathFollow2D.progress += SPEED * delta
 			
@@ -132,6 +131,8 @@ func _on_hitbox_area_entered(area):
 			$PathFollow2D.progress_ratio = 0
 			tracker_state = states.IDLE
 			player_node.position -= Vector2(0.001, 0.001)
+			arrow_path_points = []
+			arrow_path_points.append(player_node.position)
 		player_node.position += Vector2(0.001, 0.001)
 	
 	if area.name == "AreaCollisionEnemy":
