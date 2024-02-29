@@ -2,7 +2,7 @@
 
 ![](./documentation/ingame.png)
 
-Is a simple game made with [Godot](https://godotengine.org/) 4.2.1. Goal of this game is to defend yourself from the enemies buy using your Yaka Arrow. With each dying enemy you will gain points which will increase the number of maximum enemies at once. The player has to stay alive as long as possible.
+Is a simple game made with [Godot](https://godotengine.org/) 4.2.1. Goal of this game is to defend yourself from the enemies by using your Yaka Arrow. With each dying enemy you will gain points which will increase the number of maximum enemies at once. The player has to stay alive as long as possible.
 
 The game is developed and published for Windows PCs.
 
